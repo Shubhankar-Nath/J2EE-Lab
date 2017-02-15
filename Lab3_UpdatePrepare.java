@@ -1,19 +1,26 @@
 import java.sql.*;
 
-public class Lab3_Select
+public class Lab3_UpdatePrepare
+
 {
   public static void main( String args[] )
   {
     Connection c = null;
-    Statement stmt = null;
+    //Statement stmt = null;
     try {
-     Class.forName("org.sqlite.JDBC");
+      Class.forName("org.sqlite.JDBC");
       c = DriverManager.getConnection("jdbc:sqlite:lab3.db");
       c.setAutoCommit(false);
       System.out.println("Opened database successfully");
 
-      stmt = c.createStatement();
-      ResultSet rs = stmt.executeQuery( "SELECT * FROM STU_DATA;" );
+PreparedStatement stmt=null;
+      
+      String sql = " UPDATE STU_DATA SET NAME='Subhankar' WHERE SAP_ID = ? "; 
+      stmt = c.prepareStatement(sql);
+      stmt.setInt(1,500040643);
+      
+      
+      ResultSet rs = stmt.executeQuery(sql);
       while ( rs.next() ) {
          int id = rs.getInt("sap_id");
          String  name = rs.getString("name");
@@ -27,13 +34,14 @@ public class Lab3_Select
          System.out.println( "BATCH = " + batch );
          System.out.println();
       }
-      rs.close();
-      stmt.close();
-      c.close();
+
+    //  stmt.close();
+     // c.commit();
+     // c.close();
     } catch ( Exception e ) {
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
       System.exit(0);
     }
-    System.out.println("Operation done successfully");
+    System.out.println("Records created successfully");
   }
 }

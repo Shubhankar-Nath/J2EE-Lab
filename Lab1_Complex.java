@@ -1,5 +1,5 @@
 import java.util.*;
-class Comp {
+class Lab1_Complex {
 int real;
 int img;
 void getdata(int r, int i)
